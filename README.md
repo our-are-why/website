@@ -11,6 +11,7 @@ of plain HTML and CSS, with no JavaScript and no build step.
 - `scripts/`: helpers for previewing the site and remaking its media. Each
   one explains itself at the top.
 - `.environment/`: the development container.
+- `wrangler.jsonc`: tells Cloudflare what to publish.
 
 ## Preview locally
 
@@ -29,8 +30,8 @@ reload.
 
 ## Publish
 
-Cloudflare Pages publishes `public/` whenever the `production` branch is
-pushed to GitHub:
+Cloudflare publishes `public/` whenever the `production` branch is pushed
+to GitHub:
 
     git push github production
 

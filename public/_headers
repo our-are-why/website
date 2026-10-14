@@ -1,6 +1,6 @@
-# Response headers for Cloudflare Pages, which reads this file when it
-# deploys the site and doesn't serve it. Everything not listed here keeps
-# Pages' default, which has browsers check for changes on each visit.
+# Response headers, which Cloudflare reads from this file when it deploys
+# the site. Everything not listed here keeps Cloudflare's default, which has
+# browsers check for changes on each visit.
 
 # The stylesheet's name changes whenever its content does (see the README),
 # and the fonts never change, so browsers can keep both for a year without

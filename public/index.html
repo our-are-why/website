@@ -21,6 +21,7 @@
     <link rel="icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="css/style.ed7d19b1.css">
+    <link rel="preload" href="assets/ourarewhy.poster.webp" as="image" fetchpriority="high">
     <link rel="preload" href="fonts/CourierPrime-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/CourierPrime-Italic.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/CourierPrime-BoldItalic.woff2" as="font" type="font/woff2" crossorigin>
@@ -33,14 +34,17 @@
         browser plays the first source it can decode: AV1 where supported,
         otherwise H.264. Visitors who ask their system for reduced motion get
         a still frame instead; browsers too old to read the media attribute
-        play the loop. The #t=0.001 makes iOS Safari show the first frame
-        when it won't autoplay (Low Power Mode). role="img" on the wrapper
-        makes screen readers announce the label the way they announce an
-        image's alt text. The videos are made by scripts/encodeVideo.sh.
+        play the loop. Until the video arrives, the poster shows a small
+        copy of its first frame. The #t=0.001 makes iOS Safari show the
+        full first frame when it won't autoplay (Low Power Mode). role="img"
+        on the wrapper makes screen readers announce the label the way they
+        announce an image's alt text. The videos and poster are made by
+        scripts/encodeVideo.sh.
       -->
       <div class="art" role="img"
         aria-label="A pixel-art sloth sits beside a tipped-over trash can, holding a sign that reads “got ******? anything helps”">
-        <video autoplay muted loop playsinline disablepictureinpicture disableremoteplayback>
+        <video autoplay muted loop playsinline disablepictureinpicture disableremoteplayback
+          poster="assets/ourarewhy.poster.webp">
           <source src="assets/ourarewhy.av1.mp4#t=0.001" type='video/mp4; codecs="av01.0.08M.08"'
             media="(prefers-reduced-motion: no-preference)">
           <source src="assets/ourarewhy.h264.mp4#t=0.001" type='video/mp4; codecs="avc1.640028"'

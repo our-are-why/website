@@ -7,6 +7,8 @@
 #     ourarewhy.h264.mp4        H.264, the fallback every browser can play
 #     ourarewhy.still.h264.mp4  the loop's first frame, held still, for
 #                               visitors who ask for reduced motion
+#     ourarewhy.poster.webp     the loop's first frame at a third of the
+#                               size, shown while the video loads
 #
 # Needs ffmpeg built with libsvtav1 and libx264; the dev container image
 # installs Debian's package, which has both.
@@ -61,4 +63,12 @@ ffmpeg -v error -y -i "$tmp/loop.mkv" -frames:v 1 -vf "$tags" -r 1/60 \
   -c:v libx264 -preset veryslow -crf 22 -profile:v high -level:v 4.0 \
   -pix_fmt yuv420p -movflags +faststart "$out.still.h264.mp4"
 
-ls -l "$out.av1.mp4" "$out.h264.mp4" "$out.still.h264.mp4"
+# The poster: the loop's first frame at 640x360, about 27 KB, which browsers
+# show at once and replace with the video when it's ready. Video stores white
+# as 235, an image as 255, so the range is converted; the poster's white must
+# be exactly the page's, or it would show as a faint box.
+ffmpeg -v error -y -i "$tmp/loop.mkv" -frames:v 1 \
+  -vf "scale=640:360:flags=area:in_range=tv:out_range=pc,format=gray" \
+  -c:v libwebp -quality 50 -compression_level 6 "$out.poster.webp"
+
+ls -l "$out.av1.mp4" "$out.h264.mp4" "$out.still.h264.mp4" "$out.poster.webp"

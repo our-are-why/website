@@ -1,13 +1,10 @@
-// Tells Cloudflare what to publish: the files in public/, exactly as they
-// are, with no code running in front of them. Cloudflare deploys this on
-// every push to the production branch. The name has to match the Worker's
-// name in the Cloudflare dashboard.
+// Tells Cloudflare Pages what to publish: the files in public/, exactly as
+// they are, with no build step. Pages deploys on every push to the
+// production branch, and serves public/404.html for addresses that don't
+// exist. The name has to match the project's name in the Cloudflare
+// dashboard.
 {
   "name": "website",
-  "compatibility_date": "2026-09-01",
-  "assets": {
-    "directory": "./public",
-    // Addresses that don't exist get public/404.html, with a 404 status
-    "not_found_handling": "404-page"
-  }
+  "pages_build_output_dir": "./public",
+  "compatibility_date": "2026-09-01"
 }

@@ -24,21 +24,17 @@ html {
 }
 
 /* Courier Prime: a typewriter face like the lettering in the art, drawn for
-   screens. Only the styles the page uses; licence in fonts/OFL.txt. */
+   screens, in bold so it holds its own next to the art's heavy lettering.
+   Only the styles the page uses; licence in fonts/OFL.txt. Text stays hidden
+   until its font arrives (for up to about 3 seconds, then a stand-in font
+   shows), so it never flashes in another font. The poster is smaller and
+   requested first, so the art usually appears before the text. */
 @font-face {
   font-family: "Courier Prime";
-  src: url("../fonts/CourierPrime-Regular.woff2") format("woff2");
+  src: url("../fonts/CourierPrime-Bold.woff2") format("woff2");
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Courier Prime";
-  src: url("../fonts/CourierPrime-Italic.woff2") format("woff2");
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
+  font-weight: 700;
+  font-display: block;
 }
 
 @font-face {
@@ -46,12 +42,12 @@ html {
   src: url("../fonts/CourierPrime-BoldItalic.woff2") format("woff2");
   font-style: italic;
   font-weight: 700;
-  font-display: swap;
+  font-display: block;
 }
 
 body {
   margin: 0;
-  font: 1rem/1.5 "Courier Prime", "Courier New", Courier, monospace;
+  font: bold 1rem/1.5 "Courier Prime", "Courier New", Courier, monospace;
 }
 
 /* The viewport's height: svh (the height with a phone browser's toolbars
@@ -188,11 +184,15 @@ nav li {
 }
 
 /* Italic rather than underlined, in a dusty grey-purple: the page's only
-   colour, there to show what can be clicked (7.5:1 contrast on white). Bold
-   when hovered or focused from the keyboard. Monospace bold is as wide as
-   regular, so nothing shifts. */
+   colour, there to show what can be clicked (7.5:1 contrast on white).
+   Hovered or focused from the keyboard, a link turns white on purple, like a
+   highlighted menu item or selected text. The padding gives the highlight
+   room around the word, and the negative margin cancels it, so nothing
+   shifts. */
 a {
   position: relative;
+  margin: 0 -0.25em;
+  padding: 0 0.25em;
   color: #5e4d75;
   font-style: italic;
   text-decoration: none;
@@ -200,14 +200,15 @@ a {
 
 a:hover,
 a:focus-visible {
-  font-weight: bold;
+  background: #5e4d75;
+  color: #fff;
 }
 
-/* Keyboard focus: a square ring in the link's own colour, clear of the
-   letters */
+/* Keyboard focus: also a square ring in the link colour, clear of the
+   highlight */
 a:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 0.2em;
+  outline: 2px solid #5e4d75;
+  outline-offset: 2px;
 }
 
 /* An invisible tap area bigger than the word, at least 44px tall on phones
@@ -228,7 +229,6 @@ a::after {
 .not-found h1 {
   margin: 0;
   font-size: 2rem;
-  font-weight: normal;
   line-height: 1;
 }
 

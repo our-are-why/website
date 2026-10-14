@@ -1,0 +1,254 @@
+/* The video's background is pure white, so a white page makes its edges
+   disappear. Text keeps its proportion to the art: the browser's default
+   size (16px unless the visitor changed it) on tablets and laptops, growing
+   to 1.375 times that at 2560px wide, and a size smaller on phones held
+   upright, where the art is only as wide as the phone. Sizes and gaps are
+   set in rem or em, so they follow it. */
+html {
+  background: #fff;
+  color: #000;
+  font-size: clamp(1rem, 0.625rem + 0.47vw, 1.375rem);
+}
+
+@media (max-width: 30em) {
+  html {
+    font-size: 0.875rem;
+  }
+}
+
+/* Selected text in the link colour, so the browser's own blue never
+   appears */
+::selection {
+  background: #5e4d75;
+  color: #fff;
+}
+
+/* Courier Prime: a typewriter face like the lettering in the art, drawn for
+   screens. Only the styles the page uses; licence in fonts/OFL.txt. */
+@font-face {
+  font-family: "Courier Prime";
+  src: url("../fonts/CourierPrime-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Courier Prime";
+  src: url("../fonts/CourierPrime-Italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Courier Prime";
+  src: url("../fonts/CourierPrime-BoldItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  font: 1rem/1.5 "Courier Prime", "Courier New", Courier, monospace;
+}
+
+/* The viewport's height: svh (the height with a phone browser's toolbars
+   showing) where supported, so the page fits on phones; vh elsewhere */
+:root {
+  --view-height: 100vh;
+}
+
+@supports (height: 100svh) {
+  :root {
+    --view-height: 100svh;
+  }
+}
+
+/* The art, the quote and the links, as one group. Any height left over goes
+   one fifth above the group and four fifths below, which puts the centre of
+   the art about a quarter of the way down tall screens like phones instead
+   of leaving a band of empty space above it. Where the art fills the height
+   (laptops, phones on their side) there's nothing left over, so nothing
+   moves.
+
+   --art-height is as tall as the art can be: no wider than the viewport, no
+   wider than the video itself (1920px by 1080px, beyond which its pixels
+   would blur), and short enough for everything to fit on screen. Below the
+   art go the quote (1.9375rem above a 1.5rem line) and the links (1.5rem
+   above a 1.5rem line, 1rem below): 7.4375rem. The quote also moves up over
+   the white strip built into the bottom of the art, 4.54% of its height (49
+   of its 1080 rows), so the art can be 1 / 0.9546 times taller than the
+   space that leaves. */
+main {
+  --art-height: min(100% * 9 / 16, 1080px,
+    (var(--view-height) - 7.4375rem) / 0.9546);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: var(--view-height);
+}
+
+main::before,
+main::after {
+  content: "";
+}
+
+main::before {
+  flex: 1;
+}
+
+main::after {
+  flex: 4;
+}
+
+/* The aspect ratio holds the art's space before the video loads */
+.art {
+  width: calc(var(--art-height) * 16 / 9);
+  aspect-ratio: 16 / 9;
+}
+
+video {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The quote: the sloth's caption. It moves up over the art's white strip, so
+   the space above it is measured from the drawing itself. That space is
+   0.25rem more than the space between the quote and the links (the links'
+   1.5rem padding plus the 0.1875rem of leading under the quote's last line),
+   since the art's dense bottom edge needs a little more room to look even. */
+figure {
+  margin: calc(var(--art-height) * -0.0454) 0 0;
+  padding: 1.9375rem 1rem 0;
+  text-align: center;
+}
+
+/* On phones held upright the text is a size smaller but the art isn't, and
+   next to the art's dense bottom edge a gap that shrank with the text looks
+   cramped. So the space under the art stays close to its full-size value: a
+   little more than the space under the quote, which reads as even there. */
+@media (max-width: 30em) {
+  figure {
+    padding-top: 1.8125rem;
+  }
+}
+
+blockquote,
+blockquote p {
+  margin: 0;
+}
+
+blockquote p {
+  text-wrap: balance;
+}
+
+/* Where the quote can't fit on one line (about 44em of text and padding),
+   each of its two clauses gets a line of its own, so it breaks at the dash
+   rather than mid-phrase; a clause too long for its line wraps, evened out.
+   The art leaves room for the second line, so the page still fits on short
+   screens like phones held sideways. */
+@media (max-width: 44em) {
+  main {
+    --art-height: min(100% * 9 / 16, 1080px,
+      (var(--view-height) - 8.9375rem) / 0.9546);
+  }
+
+  .clause {
+    display: block;
+  }
+}
+
+/* One row of links, wrapping onto more on narrow screens */
+nav {
+  padding: 1.5rem 1rem 1rem;
+}
+
+/* On phones held upright, the links sit 2px closer to the quote */
+@media (max-width: 30em) {
+  nav {
+    padding-top: calc(1.5rem - 2px);
+  }
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 2em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  white-space: nowrap;
+}
+
+/* Italic rather than underlined, in a dusty grey-purple: the page's only
+   colour, there to show what can be clicked (7.5:1 contrast on white). Bold
+   when hovered or focused from the keyboard. Monospace bold is as wide as
+   regular, so nothing shifts. */
+a {
+  position: relative;
+  color: #5e4d75;
+  font-style: italic;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  font-weight: bold;
+}
+
+/* Keyboard focus: a square ring in the link's own colour, clear of the
+   letters */
+a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 0.2em;
+}
+
+/* An invisible tap area bigger than the word, at least 44px tall on phones
+   as touch guidelines recommend, without moving anything */
+a::after {
+  content: "";
+  position: absolute;
+  inset: -1em -0.5em;
+}
+
+/* The page for addresses that don't exist (404.html): the sloth, the code,
+   a line and the way home */
+.not-found {
+  gap: 1rem;
+  text-align: center;
+}
+
+.not-found h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.not-found p {
+  margin: 0;
+}
+
+.not-found nav {
+  padding: 0;
+}
+
+/* Hidden on screen, still read by screen readers and search engines */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

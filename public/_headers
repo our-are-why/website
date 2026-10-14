@@ -1,0 +1,21 @@
+# Response headers for Cloudflare Pages, which reads this file when it
+# deploys the site and doesn't serve it. Everything not listed here keeps
+# Pages' default, which has browsers check for changes on each visit.
+
+# The stylesheet's name changes whenever its content does (see the README),
+# and the fonts never change, so browsers can keep both for a year without
+# checking back.
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Every response: only the site's own styles, fonts, images and video may
+# load, and no scripts at all (the site has none); other sites can't show it
+# in a frame; browsers mustn't guess file types; links out send only the
+# site's address, not the page's.
+/*
+  Content-Security-Policy: default-src 'none'; style-src 'self'; font-src 'self'; img-src 'self'; media-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

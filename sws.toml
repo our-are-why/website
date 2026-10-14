@@ -1,0 +1,10 @@
+# Start the server with ./scripts/startServer.sh, which uses this file.
+# Inside the container it listens on port 8000; the host sees it at port 3000.
+[general]
+host = "0.0.0.0"
+port = 8000
+root = "./public"
+log-level = "info"
+
+# By default CSS is sent with a one-year cache lifetime; keep it off while editing
+cache-control-headers = false

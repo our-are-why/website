@@ -162,13 +162,6 @@ nav {
   padding: 1.5rem 1rem 1rem;
 }
 
-/* On phones held upright, the links sit 2px closer to the quote */
-@media (max-width: 30em) {
-  nav {
-    padding-top: calc(1.5rem - 2px);
-  }
-}
-
 nav ul {
   display: flex;
   flex-wrap: wrap;
